@@ -21,4 +21,4 @@ use RuntimeException;
 /**
  * @no-named-arguments
  */
-class ContainerException extends RuntimeException implements NotFoundExceptionInterface {}
+class ContainerNotFoundException extends RuntimeException implements NotFoundExceptionInterface {}

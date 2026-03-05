@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Psr\Container\ContainerInterface;
 use TomasChochola\Psr\Container\CallableResolver;
 use TomasChochola\Psr\Container\Container;
-use TomasChochola\Psr\Container\ContainerException;
+use TomasChochola\Psr\Container\ContainerNotFoundException;
 use TomasChochola\Psr\Container\LocatorResolver;
 use TomasChochola\Psr\Container\MixedResolver;
 use TomasChochola\Psr\Container\NewResolver;
@@ -87,7 +87,7 @@ final class ContainerTest extends TestCase
     {
         $container = new Container([]);
 
-        $this->expectException(ContainerException::class);
+        $this->expectException(ContainerNotFoundException::class);
 
         $container->get('missing');
     }

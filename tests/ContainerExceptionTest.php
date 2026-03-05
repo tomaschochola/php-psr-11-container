@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\Attributes\Test;
 use Psr\Container\NotFoundExceptionInterface;
-use TomasChochola\Psr\Container\ContainerException;
+use TomasChochola\Psr\Container\ContainerNotFoundException;
 
 use function class_implements;
 
@@ -28,15 +28,15 @@ use function class_implements;
  *
  * @no-named-arguments
  */
-#[CoversClass(ContainerException::class)]
+#[CoversClass(ContainerNotFoundException::class)]
 #[Small]
 final class ContainerExceptionTest extends TestCase
 {
     #[Test]
     public function test(): void
     {
-        $exception = new ContainerException('missing');
-        $implements = class_implements(ContainerException::class);
+        $exception = new ContainerNotFoundException('missing');
+        $implements = class_implements(ContainerNotFoundException::class);
 
         self::assertIsIterable($implements);
         self::assertContains(NotFoundExceptionInterface::class, $implements);

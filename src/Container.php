@@ -51,7 +51,7 @@ readonly class Container implements ContainerInterface
             return $found;
         }
 
-        throw new ContainerException($id);
+        throw new ContainerNotFoundException($id);
     }
 
     #[Override]
