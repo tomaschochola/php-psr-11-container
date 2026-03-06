@@ -21,24 +21,24 @@ use Psr\Container\ContainerInterface;
 /**
  * @no-named-arguments
  */
-readonly class NewResolver implements ResolverInterface
+readonly class CallableCargo implements CargoInterface
 {
     /**
-     * @var class-string
+     * @var callable(ContainerInterface): mixed
      */
-    protected readonly string $class;
+    protected readonly mixed $callable;
 
     /**
-     * @param class-string $class
+     * @param callable(ContainerInterface): mixed $callable
      */
-    public function __construct(string $class)
+    public function __construct(callable $callable)
     {
-        $this->class = $class;
+        $this->callable = $callable;
     }
 
     #[Override]
-    public function resolve(ContainerInterface $container): mixed
+    public function open(ContainerInterface $container): mixed
     {
-        return new $this->class();
+        return ($this->callable)($container);
     }
 }

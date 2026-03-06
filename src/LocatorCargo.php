@@ -15,11 +15,30 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Container;
 
-use IteratorAggregate;
+use Override;
+use Psr\Container\ContainerInterface;
 
 /**
- * @extends IteratorAggregate<int|string, mixed>
- *
  * @no-named-arguments
  */
-interface RegistrarInterface extends IteratorAggregate {}
+readonly class LocatorCargo implements CargoInterface
+{
+    /**
+     * @var class-string
+     */
+    protected readonly string $class;
+
+    /**
+     * @param class-string $class
+     */
+    public function __construct(string $class)
+    {
+        $this->class = $class;
+    }
+
+    #[Override]
+    public function open(ContainerInterface $container): mixed
+    {
+        return new $this->class($container);
+    }
+}

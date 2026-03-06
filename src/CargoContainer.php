@@ -23,7 +23,7 @@ use function array_key_exists;
 /**
  * @no-named-arguments
  */
-readonly class Container implements ContainerInterface
+readonly class CargoContainer implements ContainerInterface
 {
     /**
      * @var array<int|string, mixed>
@@ -43,15 +43,15 @@ readonly class Container implements ContainerInterface
     {
         $found = $this->registry[$id] ?? null;
 
-        if ($found instanceof ResolverInterface) {
-            return $found->resolve($this);
+        if ($found instanceof CargoInterface) {
+            return $found->open($this);
         }
 
         if ($found !== null || array_key_exists($id, $this->registry)) {
             return $found;
         }
 
-        throw new ContainerNotFoundException($id);
+        throw new CargoNotFoundException($id);
     }
 
     #[Override]

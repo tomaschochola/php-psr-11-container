@@ -15,30 +15,12 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Container;
 
-use Override;
 use Psr\Container\ContainerInterface;
 
 /**
  * @no-named-arguments
  */
-readonly class CallableResolver implements ResolverInterface
+interface CargoInterface
 {
-    /**
-     * @var callable(ContainerInterface): mixed
-     */
-    protected readonly mixed $callable;
-
-    /**
-     * @param callable(ContainerInterface): mixed $callable
-     */
-    public function __construct(callable $callable)
-    {
-        $this->callable = $callable;
-    }
-
-    #[Override]
-    public function resolve(ContainerInterface $container): mixed
-    {
-        return ($this->callable)($container);
-    }
+    public function open(ContainerInterface $container): mixed;
 }

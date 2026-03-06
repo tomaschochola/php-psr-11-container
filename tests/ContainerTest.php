@@ -19,12 +19,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\Attributes\Test;
 use Psr\Container\ContainerInterface;
-use TomasChochola\Psr\Container\CallableResolver;
-use TomasChochola\Psr\Container\Container;
-use TomasChochola\Psr\Container\ContainerNotFoundException;
-use TomasChochola\Psr\Container\LocatorResolver;
-use TomasChochola\Psr\Container\MixedResolver;
-use TomasChochola\Psr\Container\NewResolver;
+use TomasChochola\Psr\Container\CargoContainer;
+use TomasChochola\Psr\Container\CallableCargo;
+use TomasChochola\Psr\Container\CargoNotFoundException;
+use TomasChochola\Psr\Container\LocatorCargo;
+use TomasChochola\Psr\Container\MixedCargo;
+use TomasChochola\Psr\Container\NewCargo;
 use stdClass;
 
 /**
@@ -32,15 +32,15 @@ use stdClass;
  *
  * @no-named-arguments
  */
-#[CoversClass(Container::class)]
+#[CoversClass(CargoContainer::class)]
 #[Small]
 final class ContainerTest extends TestCase
 {
     #[Test]
     public function testCallable(): void
     {
-        $container = new Container([
-            'callable' => new CallableResolver(static fn(ContainerInterface $container): object => new stdClass()),
+        $container = new CargoContainer([
+            'callable' => new CallableCargo(static fn(ContainerInterface $container): object => new stdClass()),
         ]);
 
         $first = $container->get('callable');
@@ -52,13 +52,13 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testHas(): void
     {
-        $container = new Container([
-            'mixed' => new MixedResolver('mixed'),
+        $container = new CargoContainer([
+            'mixed' => new MixedCargo('mixed'),
             'null' => null,
             'string' => 'string',
-            'callable' => new CallableResolver(static fn(ContainerInterface $container): object => new stdClass()),
-            'new' => new NewResolver(stdClass::class),
-            'locator' => new LocatorResolver(stdClass::class),
+            'callable' => new CallableCargo(static fn(ContainerInterface $container): object => new stdClass()),
+            'new' => new NewCargo(stdClass::class),
+            'locator' => new LocatorCargo(stdClass::class),
         ]);
 
         self::assertTrue($container->has('string'));
@@ -73,8 +73,8 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testLocator(): void
     {
-        $container = new Container([
-            'locator' => new LocatorResolver(stdClass::class),
+        $container = new CargoContainer([
+            'locator' => new LocatorCargo(stdClass::class),
         ]);
 
         $service = $container->get('locator');
@@ -85,9 +85,9 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testMissing(): void
     {
-        $container = new Container([]);
+        $container = new CargoContainer([]);
 
-        $this->expectException(ContainerNotFoundException::class);
+        $this->expectException(CargoNotFoundException::class);
 
         $container->get('missing');
     }
@@ -95,7 +95,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testMixed(): void
     {
-        $container = new Container(['null' => new MixedResolver(null)]);
+        $container = new CargoContainer(['null' => new MixedCargo(null)]);
 
         self::assertNull($container->get('null'));
     }
@@ -103,8 +103,8 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testNew(): void
     {
-        $container = new Container([
-            'new' => new NewResolver(stdClass::class),
+        $container = new CargoContainer([
+            'new' => new NewCargo(stdClass::class),
         ]);
 
         $service = $container->get('new');
@@ -115,7 +115,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testNull(): void
     {
-        $container = new Container(['null' => null]);
+        $container = new CargoContainer(['null' => null]);
 
         self::assertNull($container->get('null'));
     }
@@ -123,7 +123,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testString(): void
     {
-        $container = new Container(['string' => 'string']);
+        $container = new CargoContainer(['string' => 'string']);
 
         self::assertSame('string', $container->get('string'));
     }

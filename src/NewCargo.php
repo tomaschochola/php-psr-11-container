@@ -15,12 +15,30 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Container;
 
+use Override;
 use Psr\Container\ContainerInterface;
 
 /**
  * @no-named-arguments
  */
-interface ResolverInterface
+readonly class NewCargo implements CargoInterface
 {
-    public function resolve(ContainerInterface $container): mixed;
+    /**
+     * @var class-string
+     */
+    protected readonly string $class;
+
+    /**
+     * @param class-string $class
+     */
+    public function __construct(string $class)
+    {
+        $this->class = $class;
+    }
+
+    #[Override]
+    public function open(ContainerInterface $container): mixed
+    {
+        return new $this->class();
+    }
 }

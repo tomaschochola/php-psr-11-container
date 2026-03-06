@@ -21,7 +21,7 @@ use Psr\Container\ContainerInterface;
 /**
  * @no-named-arguments
  */
-readonly class MixedResolver implements ResolverInterface
+readonly class MixedCargo implements CargoInterface
 {
     protected readonly mixed $mixed;
 
@@ -31,7 +31,7 @@ readonly class MixedResolver implements ResolverInterface
     }
 
     #[Override]
-    public function resolve(ContainerInterface $container): mixed
+    public function open(ContainerInterface $container): mixed
     {
         return $this->mixed;
     }
