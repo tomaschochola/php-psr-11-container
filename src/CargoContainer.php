@@ -26,12 +26,12 @@ use function array_key_exists;
 readonly class CargoContainer implements ContainerInterface
 {
     /**
-     * @var array<int|string, mixed>
+     * @var array<mixed, mixed>
      */
     protected readonly array $registry;
 
     /**
-     * @param array<int|string, mixed> $registry
+     * @param array<mixed, mixed> $registry
      */
     public function __construct(array $registry)
     {
