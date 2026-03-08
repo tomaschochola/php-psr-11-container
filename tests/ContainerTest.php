@@ -19,12 +19,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\Attributes\Test;
 use Psr\Container\ContainerInterface;
-use TomasChochola\Psr\Container\CallableCargo;
-use TomasChochola\Psr\Container\CargoContainer;
 use TomasChochola\Psr\Container\CargoNotFoundException;
-use TomasChochola\Psr\Container\LocatorCargo;
-use TomasChochola\Psr\Container\MixedCargo;
-use TomasChochola\Psr\Container\NewCargo;
+use TomasChochola\Psr\Container\DependencyContainer;
 use stdClass;
 
 /**
@@ -32,15 +28,15 @@ use stdClass;
  *
  * @no-named-arguments
  */
-#[CoversClass(CargoContainer::class)]
+#[CoversClass(DependencyContainer::class)]
 #[Small]
 final class ContainerTest extends TestCase
 {
     #[Test]
     public function testCallable(): void
     {
-        $container = new CargoContainer([
-            'callable' => new CallableCargo(static fn(ContainerInterface $container): object => new stdClass()),
+        $container = new DependencyContainer([
+            'callable' => static fn(ContainerInterface $container): object => new stdClass(),
         ]);
 
         $first = $container->get('callable');
@@ -52,13 +48,13 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testHas(): void
     {
-        $container = new CargoContainer([
-            'mixed' => new MixedCargo('mixed'),
+        $container = new DependencyContainer([
+            'mixed' => 'mixed',
             'null' => null,
             'string' => 'string',
-            'callable' => new CallableCargo(static fn(ContainerInterface $container): object => new stdClass()),
-            'new' => new NewCargo(stdClass::class),
-            'locator' => new LocatorCargo(stdClass::class),
+            'callable' => static fn(ContainerInterface $container): object => new stdClass(),
+            'new' => static fn(ContainerInterface $container): object => new stdClass(),
+            'locator' => static fn(ContainerInterface $container): object => new stdClass(),
         ]);
 
         self::assertTrue($container->has('string'));
@@ -73,8 +69,8 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testLocator(): void
     {
-        $container = new CargoContainer([
-            'locator' => new LocatorCargo(stdClass::class),
+        $container = new DependencyContainer([
+            'locator' => static fn(ContainerInterface $container): object => new stdClass(),
         ]);
 
         $service = $container->get('locator');
@@ -85,7 +81,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testMissing(): void
     {
-        $container = new CargoContainer([]);
+        $container = new DependencyContainer([]);
 
         $this->expectException(CargoNotFoundException::class);
 
@@ -95,7 +91,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testMixed(): void
     {
-        $container = new CargoContainer(['null' => new MixedCargo(null)]);
+        $container = new DependencyContainer(['null' => null]);
 
         self::assertNull($container->get('null'));
     }
@@ -103,8 +99,8 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testNew(): void
     {
-        $container = new CargoContainer([
-            'new' => new NewCargo(stdClass::class),
+        $container = new DependencyContainer([
+            'new' => static fn(ContainerInterface $container): object => new stdClass(),
         ]);
 
         $service = $container->get('new');
@@ -115,7 +111,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testNull(): void
     {
-        $container = new CargoContainer(['null' => null]);
+        $container = new DependencyContainer(['null' => null]);
 
         self::assertNull($container->get('null'));
     }
@@ -123,7 +119,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testString(): void
     {
-        $container = new CargoContainer(['string' => 'string']);
+        $container = new DependencyContainer(['string' => 'string']);
 
         self::assertSame('string', $container->get('string'));
     }

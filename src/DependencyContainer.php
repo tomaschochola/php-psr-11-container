@@ -19,11 +19,12 @@ use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
+use function is_callable;
 
 /**
  * @no-named-arguments
  */
-readonly class CargoContainer implements ContainerInterface
+readonly class DependencyContainer implements ContainerInterface
 {
     /**
      * @var array<mixed, mixed>
@@ -43,8 +44,8 @@ readonly class CargoContainer implements ContainerInterface
     {
         $found = $this->registry[$id] ?? null;
 
-        if ($found instanceof CargoInterface) {
-            return $found->open($this);
+        if (is_callable($found)) {
+            return $found($this);
         }
 
         if ($found !== null || array_key_exists($id, $this->registry)) {
