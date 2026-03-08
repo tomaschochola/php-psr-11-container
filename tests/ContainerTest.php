@@ -19,8 +19,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\Attributes\Test;
 use Psr\Container\ContainerInterface;
-use TomasChochola\Psr\Container\CargoNotFoundException;
-use TomasChochola\Psr\Container\DependencyContainer;
+use TomasChochola\Psr\Container\Container;
+use TomasChochola\Psr\Container\ContainerNotFoundException;
 use stdClass;
 
 /**
@@ -28,14 +28,14 @@ use stdClass;
  *
  * @no-named-arguments
  */
-#[CoversClass(DependencyContainer::class)]
+#[CoversClass(Container::class)]
 #[Small]
 final class ContainerTest extends TestCase
 {
     #[Test]
     public function testCallable(): void
     {
-        $container = new DependencyContainer([
+        $container = new Container([
             'callable' => static fn(ContainerInterface $container): object => new stdClass(),
         ]);
 
@@ -48,7 +48,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testHas(): void
     {
-        $container = new DependencyContainer([
+        $container = new Container([
             'mixed' => 'mixed',
             'null' => null,
             'string' => 'string',
@@ -69,7 +69,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testLocator(): void
     {
-        $container = new DependencyContainer([
+        $container = new Container([
             'locator' => static fn(ContainerInterface $container): object => new stdClass(),
         ]);
 
@@ -81,9 +81,9 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testMissing(): void
     {
-        $container = new DependencyContainer([]);
+        $container = new Container([]);
 
-        $this->expectException(CargoNotFoundException::class);
+        $this->expectException(ContainerNotFoundException::class);
 
         $container->get('missing');
     }
@@ -91,7 +91,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testMixed(): void
     {
-        $container = new DependencyContainer(['null' => null]);
+        $container = new Container(['null' => null]);
 
         self::assertNull($container->get('null'));
     }
@@ -99,7 +99,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testNew(): void
     {
-        $container = new DependencyContainer([
+        $container = new Container([
             'new' => static fn(ContainerInterface $container): object => new stdClass(),
         ]);
 
@@ -111,7 +111,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testNull(): void
     {
-        $container = new DependencyContainer(['null' => null]);
+        $container = new Container(['null' => null]);
 
         self::assertNull($container->get('null'));
     }
@@ -119,7 +119,7 @@ final class ContainerTest extends TestCase
     #[Test]
     public function testString(): void
     {
-        $container = new DependencyContainer(['string' => 'string']);
+        $container = new Container(['string' => 'string']);
 
         self::assertSame('string', $container->get('string'));
     }

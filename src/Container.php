@@ -24,7 +24,7 @@ use function is_callable;
 /**
  * @no-named-arguments
  */
-readonly class DependencyContainer implements ContainerInterface
+readonly class Container implements ContainerInterface
 {
     /**
      * @var array<mixed, mixed>
@@ -52,7 +52,7 @@ readonly class DependencyContainer implements ContainerInterface
             return $found;
         }
 
-        throw new CargoNotFoundException($id);
+        throw new ContainerNotFoundException($id);
     }
 
     #[Override]
