@@ -30,7 +30,7 @@ use stdClass;
  */
 #[CoversClass(Container::class)]
 #[Small]
-final class ContainerTest extends TestCase
+class ContainerTest extends TestCase
 {
     #[Test]
     public function testCallable(): void

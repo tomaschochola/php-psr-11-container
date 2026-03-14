@@ -30,7 +30,7 @@ use function class_implements;
  */
 #[CoversClass(ContainerNotFoundException::class)]
 #[Small]
-final class ContainerExceptionTest extends TestCase
+class ContainerExceptionTest extends TestCase
 {
     #[Test]
     public function test(): void
