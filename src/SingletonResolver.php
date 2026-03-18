@@ -41,16 +41,9 @@ readonly class SingletonResolver implements ContainerResolverInterface
     {
         $this->factory = $factory;
 
-        $this->cache = new class(new stdClass()) {
-            public object $sentinel;
+        $sentinel = new stdClass();
 
-            public mixed $current;
-
-            public function __construct(object $sentinel)
-            {
-                $this->current = $this->sentinel = $sentinel;
-            }
-        };
+        $this->cache = (object) ['sentinel' => $sentinel, 'current' => $sentinel];
     }
 
     #[Override]
