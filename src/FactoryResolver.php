@@ -26,7 +26,7 @@ readonly class FactoryResolver implements ContainerResolverInterface
     /**
      * @var callable(ContainerInterface): mixed
      */
-    private readonly callable $factory;
+    private readonly mixed $factory;
 
     /**
      * @param callable(ContainerInterface): mixed $factory

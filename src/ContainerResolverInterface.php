@@ -17,6 +17,9 @@ namespace TomasChochola\Psr\Container;
 
 use Psr\Container\ContainerInterface;
 
+/**
+ * @no-named-arguments
+ */
 interface ContainerResolverInterface
 {
     public function resolve(ContainerInterface $container): mixed;

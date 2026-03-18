@@ -25,14 +25,14 @@ use stdClass;
 readonly class SingletonResolver implements ContainerResolverInterface
 {
     /**
-     * @var callable(ContainerInterface): mixed
-     */
-    private readonly callable $factory;
-
-    /**
-     * @var object{current?: mixed}
+     * @var object{current: mixed, sentinel: object}
      */
     private readonly object $cache;
+
+    /**
+     * @var callable(ContainerInterface): mixed
+     */
+    private readonly mixed $factory;
 
     /**
      * @param callable(ContainerInterface): mixed $factory
@@ -40,12 +40,26 @@ readonly class SingletonResolver implements ContainerResolverInterface
     public function __construct(callable $factory)
     {
         $this->factory = $factory;
-        $this->cache = new stdClass();
+
+        $this->cache = new class(new stdClass()) {
+            public object $sentinel;
+
+            public mixed $current;
+
+            public function __construct(object $sentinel)
+            {
+                $this->current = $this->sentinel = $sentinel;
+            }
+        };
     }
 
     #[Override]
     public function resolve(ContainerInterface $container): mixed
     {
-        return $this->cache->current ??= ($this->factory)($container);
+        if ($this->cache->current !== $this->cache->sentinel) {
+            return $this->cache->current;
+        }
+
+        return $this->cache->current = ($this->factory)($container);
     }
 }
