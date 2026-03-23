@@ -25,7 +25,7 @@ use stdClass;
 readonly class SingletonResolver implements ContainerResolverInterface
 {
     /**
-     * @var object{current: mixed, sentinel: object}
+     * @var object{current?: mixed}
      */
     private readonly object $cache;
 
@@ -40,16 +40,13 @@ readonly class SingletonResolver implements ContainerResolverInterface
     public function __construct(callable $factory)
     {
         $this->factory = $factory;
-
-        $sentinel = new stdClass();
-
-        $this->cache = (object) ['sentinel' => $sentinel, 'current' => $sentinel];
+        $this->cache = (object) [];
     }
 
     #[Override]
     public function resolve(ContainerInterface $container): mixed
     {
-        if ($this->cache->current !== $this->cache->sentinel) {
+        if (property_exists($this->cache, 'current')) {
             return $this->cache->current;
         }
 
