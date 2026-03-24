@@ -17,7 +17,8 @@ namespace TomasChochola\Psr\Container;
 
 use Override;
 use Psr\Container\ContainerInterface;
-use stdClass;
+
+use function property_exists;
 
 /**
  * @no-named-arguments
