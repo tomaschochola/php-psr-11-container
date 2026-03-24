@@ -21,7 +21,7 @@ use Psr\Container\ContainerInterface;
 /**
  * @no-named-arguments
  */
-readonly class FactoryResolver implements ContainerResolverInterface
+readonly class FactoryResolver implements ResolverInterface
 {
     /**
      * @var callable(ContainerInterface): mixed

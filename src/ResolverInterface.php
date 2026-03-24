@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
 /**
  * @no-named-arguments
  */
-interface ContainerResolverInterface
+interface ResolverInterface
 {
     public function resolve(ContainerInterface $container): mixed;
 }

@@ -21,7 +21,7 @@ use Psr\Container\ContainerInterface;
 /**
  * @no-named-arguments
  */
-readonly class LocatorResolver implements ContainerResolverInterface
+readonly class LocatorResolver implements ResolverInterface
 {
     private readonly string $class;
 

@@ -23,7 +23,7 @@ use function property_exists;
 /**
  * @no-named-arguments
  */
-readonly class SingletonResolver implements ContainerResolverInterface
+readonly class SingletonResolver implements ResolverInterface
 {
     /**
      * @var object{current?: mixed}
