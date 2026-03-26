@@ -18,7 +18,6 @@ namespace TomasChochola\Psr\Container;
 use NoDiscard;
 use Override;
 use Psr\Container\ContainerInterface;
-use UnexpectedValueException;
 
 use function array_key_exists;
 
@@ -62,24 +61,5 @@ readonly class Container implements ContainerInterface
     public function has(string $id): bool
     {
         return isset($this->registry[$id]) || array_key_exists($id, $this->registry);
-    }
-
-    /**
-     * @template T of object
-     *
-     * @param class-string<T> $id
-     *
-     * @return T
-     */
-    #[NoDiscard]
-    public function resolve(string $id): object
-    {
-        $resolved = $this->get($id);
-
-        if (!$resolved instanceof $id) {
-            throw new UnexpectedValueException('get');
-        }
-
-        return $resolved;
     }
 }
