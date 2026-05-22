@@ -28,12 +28,12 @@ readonly class SingletonResolver implements ResolverInterface
     /**
      * @var object{current?: mixed}
      */
-    private readonly object $cache;
+    private object $cache;
 
     /**
      * @var callable(ContainerInterface): mixed
      */
-    private readonly mixed $factory;
+    private mixed $factory;
 
     /**
      * @param callable(ContainerInterface): mixed $factory
@@ -44,7 +44,7 @@ readonly class SingletonResolver implements ResolverInterface
         $this->cache = (object) [];
     }
 
-    #[Override]
+    #[Override()]
     public function resolve(ContainerInterface $container): mixed
     {
         if (property_exists($this->cache, 'current')) {

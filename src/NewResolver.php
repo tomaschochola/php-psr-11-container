@@ -23,14 +23,14 @@ use Psr\Container\ContainerInterface;
  */
 readonly class NewResolver implements ResolverInterface
 {
-    private readonly string $class;
+    private string $class;
 
     public function __construct(string $class)
     {
         $this->class = $class;
     }
 
-    #[Override]
+    #[Override()]
     public function resolve(ContainerInterface $container): mixed
     {
         return new $this->class();

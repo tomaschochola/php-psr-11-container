@@ -26,7 +26,7 @@ readonly class FactoryResolver implements ResolverInterface
     /**
      * @var callable(ContainerInterface): mixed
      */
-    private readonly mixed $factory;
+    private mixed $factory;
 
     /**
      * @param callable(ContainerInterface): mixed $factory
@@ -36,7 +36,7 @@ readonly class FactoryResolver implements ResolverInterface
         $this->factory = $factory;
     }
 
-    #[Override]
+    #[Override()]
     public function resolve(ContainerInterface $container): mixed
     {
         return ($this->factory)($container);

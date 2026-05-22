@@ -29,7 +29,7 @@ readonly class Container implements ContainerInterface
     /**
      * @var array<mixed, mixed>
      */
-    private readonly array $registry;
+    private array $registry;
 
     /**
      * @param array<mixed, mixed> $registry
@@ -39,8 +39,8 @@ readonly class Container implements ContainerInterface
         $this->registry = $registry;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function get(string $id): mixed
     {
         $found = $this->registry[$id] ?? null;
@@ -56,8 +56,8 @@ readonly class Container implements ContainerInterface
         throw new ContainerNotFoundException($id);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function has(string $id): bool
     {
         return isset($this->registry[$id]) || array_key_exists($id, $this->registry);
