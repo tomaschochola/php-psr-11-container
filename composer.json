@@ -4,29 +4,39 @@
       "email": "tomaschochola@tomaschochola.cz",
       "homepage": "https://github.com/tomaschochola",
       "name": "Tomáš Chochola",
-      "role": "Author"
+      "role": "Enterprise Architect"
     }
   ],
   "autoload": {
     "psr-4": {
-      "TomasChochola\\Psr\\Container\\": "./src"
+      "TomasChochola\\Psr\\Container\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "./tests"
+      "Tests\\": "tests/"
     }
   },
   "config": {
     "allow-plugins": false,
-    "audit": {
-      "abandoned": "fail"
-    },
     "platform-check": true,
-    "process-timeout": 0,
+    "policy": {
+      "abandoned": {
+        "audit": "fail",
+        "block": true
+      },
+      "advisories": {
+        "audit": "fail",
+        "block": true
+      },
+      "malware": {
+        "audit": "fail",
+        "block": true
+      }
+    },
     "sort-packages": true
   },
-  "description": "tomaschochola/php-psr-11-container",
+  "description": "Explicit PSR-11 dependency injection container with factory, locator, singleton, and constructor resolvers.",
   "funding": [
     {
       "type": "github",
@@ -36,25 +46,27 @@
   "homepage": "https://github.com/tomaschochola/php-psr-11-container",
   "keywords": [
     "tomaschochola",
-    "TomasChochola",
-    "Tomas Chochola",
-    "Tomáš Chochola",
-    "php-psr-11-container"
+    "container",
+    "dependency-injection",
+    "psr-11",
+    "resolver"
   ],
   "license": "CC-BY-ND-4.0",
-  "minimum-stability": "dev",
   "name": "tomaschochola/php-psr-11-container",
   "prefer-stable": true,
+  "provide": {
+    "psr/container-implementation": "2.0"
+  },
   "repositories": [
     {
       "no-api": true,
-      "type": "git",
-      "url": "https://github.com/tomaschochola/tooling-phpstan.git"
+      "type": "vcs",
+      "url": "https://github.com/tomaschochola/tooling-php-cs-fixer.git"
     },
     {
       "no-api": true,
-      "type": "git",
-      "url": "https://github.com/tomaschochola/tooling-php-cs-fixer.git"
+      "type": "vcs",
+      "url": "https://github.com/tomaschochola/tooling-phpstan.git"
     }
   ],
   "require": {
@@ -72,7 +84,6 @@
     "tomaschochola/tooling-phpstan": "^1.0@dev"
   },
   "support": {
-    "docs": "https://github.com/tomaschochola/php-psr-11-container",
     "email": "tomaschochola@tomaschochola.cz",
     "issues": "https://github.com/tomaschochola/php-psr-11-container/issues",
     "source": "https://github.com/tomaschochola/php-psr-11-container.git"
