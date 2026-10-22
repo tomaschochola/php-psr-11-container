@@ -31,10 +31,7 @@
         "TomasChochola",
         "Tomas Chochola",
         "Tomáš Chochola",
-        "container",
-        "dependency-injection",
-        "psr-11",
-        "resolver"
+        "php-psr-11-container"
     ],
     "license": "CC-BY-ND-4.0",
     "name": "@tomaschochola/php-psr-11-container",
